@@ -35,12 +35,17 @@ library(chron)
 knitr::opts_chunk$set(cache=TRUE)
 ```
 
+#### Start timer
+```{r timer-start}
+start_time <- proc.time()
+```
+
 #### Remote IO Locations
 ```{r remote-io}
-F_INPUT_DIR = "~DavidWork/Documents/"
+F_INPUT_DIR = "M:/Data/Traffic/Tableau Summaries/_working/"
 INPUT_FILE  = "98_13_PMwithdecimal_no_single.txt"
 
-F_OUTPUT_DIR = "~DavidWork/Documents/"
+F_OUTPUT_DIR = "M:/Data/Traffic/Tableau Summaries/_working/"
 OUTPUT_FILE = "typical-weekday-counts-1998-2013.csv"
 ```
 
@@ -98,18 +103,17 @@ clean_df <- clean_df %>%
            (variable == 'END11AM') * 11 +
            (variable == 'END12NOO') * 12 +
            (variable == 'END1PM')  * 13 +
-           (variable == 'END1PM')  * 14 +
-           (variable == 'END2PM')  * 15 +
-           (variable == 'END3PM')  * 16 +
-           (variable == 'END4PM')  * 17 +
-           (variable == 'END5PM')  * 18 +
-           (variable == 'END6PM')  * 19 +
-           (variable == 'END7PM')  * 20 +
-           (variable == 'END8PM')  * 21 +
-           (variable == 'END9PM')  * 22 +
-           (variable == 'END10PM') * 23 +
-           (variable == 'END11PM') * 24 +
-           (variable == 'END12NIG') * 0) %>%
+           (variable == 'END2PM')  * 14 +
+           (variable == 'END3PM')  * 15 +
+           (variable == 'END4PM')  * 16 +
+           (variable == 'END5PM')  * 17 +
+           (variable == 'END6PM')  * 18 +
+           (variable == 'END7PM')  * 19 +
+           (variable == 'END8PM')  * 20 +
+           (variable == 'END9PM')  * 21 +
+           (variable == 'END10PM')  * 22 +
+           (variable == 'END11PM') * 23 +
+           (variable == 'ENDNIG') * 24) %>%
   select(-variable)
 
 # Create typical weekday flag
@@ -126,6 +130,7 @@ clean_df <- clean_df %>%
            (month == "September") * 1 +
            (month == "October") * 1 +
            (month == "November") * 1) %>%
+  mutate(year = years(date)) %>%
   mutate(not_holiday = !(is.holiday(date, HOLIDAY_DATES))) %>%
   mutate(typical_weekday = typical_day_of_week * typical_month * not_holiday) %>%
   select(-day_of_week, -typical_day_of_week, -month, -typical_month, -not_holiday)
@@ -142,7 +147,7 @@ typical_df <- clean_df %>%
 
 typical_df <- left_join(typical_df, typical_sum_df, by = c("route", "county", "post_mile", "leg", "direction", "station", "description", "integer_hour"))
 
-# Flag suspect counts
+# Flag suspect counts (use four standard deviations across years)
 typical_df <- typical_df %>%
   mutate(three_sd_low  = avg_count - 4 * sd_count) %>%
   mutate(three_sd_high = avg_count + 4 * sd_count) %>%
@@ -153,7 +158,7 @@ table(typical_df$suspect_flag)
 # Remove suspects and small sample size, redo summaries
 typical_sum_df <- typical_df %>%
   filter(suspect_flag == 0) %>%
-  group_by(route, county, post_mile, leg, direction, station, description, integer_hour) %>%
+  group_by(route, county, post_mile, leg, direction, station, description, year, integer_hour) %>%
   summarise(median_count = median(count), avg_count = mean(count), 
             sd_count = sd(count), days_observed = n()) %>%
   filter(days_observed > MIN_DAYS_OBSERVED)
@@ -164,5 +169,36 @@ typical_sum_df <- typical_df %>%
 ```{r data-writes}
 output_file_name <- paste(F_OUTPUT_DIR, OUTPUT_FILE, sep = "")
 write.csv(typical_sum_df, file = output_file_name, row.names = FALSE, quote = T)
+```
+
+#### End timer
+```{r timer-end}
+run_time <- start_time - proc.time()
+run_time
+```
+
+```{r debug}
+karate <- typical_sum_df %>%
+  filter(days_observed > 80)
+
+table(karate$station)
+
+kungfu <- typical_df %>%
+  filter(station == 76) %>%
+  filter(date == '2000-10-19') %>%
+  filter(direction == 'E')
+
+donkey <- clean_df %>%
+    filter(station == 76) %>%
+  filter(date == '2000-10-19') %>%
+  filter(direction == 'E')
+
+table(kungfu$date)
+
+# START HERE
+# Sum over these plus integer hour with typical and flag duplicate records
+# Remove in clean up step
+
+
 ```
 
