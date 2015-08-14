@@ -1,2 +1,2 @@
-# caltrans-counts
+# caltrans-typical-weekday-counts
 Processing of traffic counts provided by the California Department of Transportation.  Counts for typical weekdays -- defined as Tuesdays, Wednesdays, and Thursdays in March, April, May, September, October, and November, excluding holidays -- are extracted and aggregated.  The resulting data is available [here](https://mtcdrive.app.box.com/share-data).  The data is presented in a [Tableau interactive](http://analytics.mtc.ca.gov/foswiki/Main/CaltransFlows).  
