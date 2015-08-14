@@ -16,8 +16,8 @@ This script consumes Rupinder's Caltrans traffic count files.  The data is melte
 1.  A consolidated database of clean Caltrans counts for typical weekdays
 
 #### TODO
-1.  Build tableau
-2.  Move back a step in the sequence?
+1.  Move a step back in the sequence?
+2.  Incorporate RS's 2014 data
 
 
 ## Procedure
@@ -45,8 +45,8 @@ start_time <- proc.time()
 F_INPUT_DIR = "M:/Data/Traffic/Tableau Summaries/_working/"
 INPUT_FILE  = "98_13_PMwithdecimal_no_single.txt"
 
-F_OUTPUT_DIR = "M:/Data/Traffic/Tableau Summaries/_working/"
-OUTPUT_FILE = "typical-weekday-counts-1998-2013.csv"
+F_OUTPUT_DIR = "D:/files/Box Sync/Share Data/caltrans-typical-weekday/"
+OUTPUT_FILE = "typical-weekday-counts.csv"
 ```
 
 #### Parameters
@@ -155,12 +155,25 @@ typical_df <- typical_df %>%
 
 table(typical_df$suspect_flag)
 
+# Identify and account for duplicate records
+duplicate_df <- typical_df %>%
+  group_by(route, county, post_mile, leg, direction, station, date, integer_hour) %>%
+  summarise(duplicate = n())
+
+table(duplicate_df$duplicate)
+
+typical_df <- left_join(typical_df, duplicate_df, by = c("route", "county", "post_mile", "leg", "direction", "station", "date", "integer_hour"))
+
+typical_df <- typical_df %>%
+  mutate(count = count / duplicate) %>%
+  mutate(record_weight = 1 / duplicate)
+
 # Remove suspects and small sample size, redo summaries
 typical_sum_df <- typical_df %>%
   filter(suspect_flag == 0) %>%
   group_by(route, county, post_mile, leg, direction, station, description, year, integer_hour) %>%
   summarise(median_count = median(count), avg_count = mean(count), 
-            sd_count = sd(count), days_observed = n()) %>%
+            sd_count = sd(count), days_observed = sum(record_weight)) %>%
   filter(days_observed > MIN_DAYS_OBSERVED)
 
 ```
@@ -173,32 +186,7 @@ write.csv(typical_sum_df, file = output_file_name, row.names = FALSE, quote = T)
 
 #### End timer
 ```{r timer-end}
-run_time <- start_time - proc.time()
+run_time <- proc.time() - start_time
 run_time
-```
-
-```{r debug}
-karate <- typical_sum_df %>%
-  filter(days_observed > 80)
-
-table(karate$station)
-
-kungfu <- typical_df %>%
-  filter(station == 76) %>%
-  filter(date == '2000-10-19') %>%
-  filter(direction == 'E')
-
-donkey <- clean_df %>%
-    filter(station == 76) %>%
-  filter(date == '2000-10-19') %>%
-  filter(direction == 'E')
-
-table(kungfu$date)
-
-# START HERE
-# Sum over these plus integer hour with typical and flag duplicate records
-# Remove in clean up step
-
-
 ```
 

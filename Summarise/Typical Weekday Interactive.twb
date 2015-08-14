@@ -1,0 +1,1164 @@
+<?xml version='1.0' encoding='utf-8' ?>
+
+<workbook source-platform='win' version='9.0' xml:base='https://public.tableau.com' xmlns:user='http://www.tableausoftware.com/xml/user'>
+  <!-- build 9000.15.0318.1720                                -->
+  <repository-location id='CaltransTypicalWeekdayInteractive' path='/workbooks' revision='1.3' />
+  <preferences>
+    <preference name='ui.encoding.shelf.height' value='24' />
+    <preference name='ui.shelf.height' value='26' />
+  </preferences>
+  <datasources>
+    <datasource caption='typical-weekday-counts-1998-2013' inline='true' name='textscan.42229.673161956016' version='9.0'>
+      <connection class='textscan' directory='D:/files/Box Sync/Share Data/caltrans-typical-weekday' filename='typical-weekday-counts.csv' password='' server=''>
+        <relation name='typical-weekday-counts#csv' table='[typical-weekday-counts#csv]' type='table'>
+          <columns character-set='UTF-8' header='yes' locale='en_US' separator=','>
+            <column datatype='integer' name='route' ordinal='0' />
+            <column datatype='string' name='county' ordinal='1' />
+            <column datatype='real' name='post_mile' ordinal='2' />
+            <column datatype='string' name='leg' ordinal='3' />
+            <column datatype='string' name='direction' ordinal='4' />
+            <column datatype='integer' name='station' ordinal='5' />
+            <column datatype='string' name='description' ordinal='6' />
+            <column datatype='integer' name='year' ordinal='7' />
+            <column datatype='integer' name='integer_hour' ordinal='8' />
+            <column datatype='real' name='median_count' ordinal='9' />
+            <column datatype='real' name='avg_count' ordinal='10' />
+            <column datatype='real' name='sd_count' ordinal='11' />
+            <column datatype='integer' name='days_observed' ordinal='12' />
+          </columns>
+        </relation>
+        <metadata-records>
+          <metadata-record class='column'>
+            <remote-name>route</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[route]</local-name>
+            <parent-name>[typical-weekday-counts#csv]</parent-name>
+            <remote-alias>route</remote-alias>
+            <ordinal>0</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>county</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[county]</local-name>
+            <parent-name>[typical-weekday-counts#csv]</parent-name>
+            <remote-alias>county</remote-alias>
+            <ordinal>1</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteCollation'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='DebugRemoteMetadata (compression)'>&quot;heap&quot;</attribute>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>4294967292</attribute>
+              <attribute datatype='integer' name='DebugRemoteMetadata (storagewidth)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;str&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>post_mile</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[post_mile]</local-name>
+            <parent-name>[typical-weekday-counts#csv]</parent-name>
+            <remote-alias>post_mile</remote-alias>
+            <ordinal>2</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>leg</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[leg]</local-name>
+            <parent-name>[typical-weekday-counts#csv]</parent-name>
+            <remote-alias>leg</remote-alias>
+            <ordinal>3</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteCollation'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='DebugRemoteMetadata (compression)'>&quot;heap&quot;</attribute>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>4294967292</attribute>
+              <attribute datatype='integer' name='DebugRemoteMetadata (storagewidth)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;str&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>direction</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[direction]</local-name>
+            <parent-name>[typical-weekday-counts#csv]</parent-name>
+            <remote-alias>direction</remote-alias>
+            <ordinal>4</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteCollation'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='DebugRemoteMetadata (compression)'>&quot;heap&quot;</attribute>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>4294967292</attribute>
+              <attribute datatype='integer' name='DebugRemoteMetadata (storagewidth)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;str&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>station</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[station]</local-name>
+            <parent-name>[typical-weekday-counts#csv]</parent-name>
+            <remote-alias>station</remote-alias>
+            <ordinal>5</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>description</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[description]</local-name>
+            <parent-name>[typical-weekday-counts#csv]</parent-name>
+            <remote-alias>description</remote-alias>
+            <ordinal>6</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteCollation'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='DebugRemoteMetadata (compression)'>&quot;heap&quot;</attribute>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>4294967292</attribute>
+              <attribute datatype='integer' name='DebugRemoteMetadata (storagewidth)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;str&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>year</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[year]</local-name>
+            <parent-name>[typical-weekday-counts#csv]</parent-name>
+            <remote-alias>year</remote-alias>
+            <ordinal>7</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>integer_hour</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[integer_hour]</local-name>
+            <parent-name>[typical-weekday-counts#csv]</parent-name>
+            <remote-alias>integer_hour</remote-alias>
+            <ordinal>8</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>median_count</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[median_count]</local-name>
+            <parent-name>[typical-weekday-counts#csv]</parent-name>
+            <remote-alias>median_count</remote-alias>
+            <ordinal>9</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>avg_count</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[avg_count]</local-name>
+            <parent-name>[typical-weekday-counts#csv]</parent-name>
+            <remote-alias>avg_count</remote-alias>
+            <ordinal>10</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>sd_count</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[sd_count]</local-name>
+            <parent-name>[typical-weekday-counts#csv]</parent-name>
+            <remote-alias>sd_count</remote-alias>
+            <ordinal>11</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>days_observed</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[days_observed]</local-name>
+            <parent-name>[typical-weekday-counts#csv]</parent-name>
+            <remote-alias>days_observed</remote-alias>
+            <ordinal>12</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='capability'>
+            <remote-name></remote-name>
+            <remote-type>0</remote-type>
+            <parent-name>[typical-weekday-counts#csv]</parent-name>
+            <remote-alias></remote-alias>
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+              <attribute datatype='string' name='collation'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+              <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+              <attribute datatype='string' name='locale'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+            </attributes>
+          </metadata-record>
+        </metadata-records>
+      </connection>
+      <aliases enabled='yes' />
+      <column datatype='integer' name='[Number of Records]' role='measure' type='quantitative' user:auto-column='numrec'>
+        <calculation class='tableau' formula='1' />
+      </column>
+      <column caption='Avg Count' datatype='real' name='[avg_count]' role='measure' type='quantitative'>
+      </column>
+      <column caption='County' datatype='string' name='[county]' role='dimension' semantic-role='[County].[Name]' type='nominal'>
+        <aliases>
+          <alias key='&quot;ALA&quot;' value='Alameda' />
+          <alias key='&quot;CC&quot;' value='Contra Costa' />
+          <alias key='&quot;LAK&quot;' value='Lake' />
+          <alias key='&quot;MRN&quot;' value='Marin' />
+          <alias key='&quot;NAP&quot;' value='Napa' />
+          <alias key='&quot;SBT&quot;' value='San Benito' />
+          <alias key='&quot;SCL&quot;' value='Santa Clara' />
+          <alias key='&quot;SCR&quot;' value='Santa Cruz' />
+          <alias key='&quot;SF&quot;' value='San Francisco' />
+          <alias key='&quot;SJ&quot;' value='San Joaquin' />
+          <alias key='&quot;SM&quot;' value='San Mateo' />
+          <alias key='&quot;SOL&quot;' value='Solano' />
+          <alias key='&quot;SON&quot;' value='Sonoma' />
+          <alias key='&quot;YOL&quot;' value='Yolo' />
+        </aliases>
+      </column>
+      <column caption='Days Observed' datatype='integer' name='[days_observed]' role='measure' type='quantitative'>
+      </column>
+      <column caption='Description' datatype='string' name='[description]' role='dimension' type='nominal'>
+      </column>
+      <column caption='Direction' datatype='string' name='[direction]' role='dimension' type='nominal'>
+        <aliases>
+          <alias key='&quot;E&quot;' value='Eastbound' />
+          <alias key='&quot;N&quot;' value='Northbound' />
+          <alias key='&quot;S&quot;' value='Southbound' />
+          <alias key='&quot;W&quot;' value='Westbound' />
+        </aliases>
+      </column>
+      <column aggregation='Sum' caption='Time Period' datatype='integer' name='[integer_hour]' role='dimension' type='ordinal'>
+        <aliases>
+          <alias key='0' value='Mid to 1 am' />
+          <alias key='1' value='1 to 2 am' />
+          <alias key='2' value='2 to 3 am' />
+          <alias key='3' value='3 to 4 am' />
+          <alias key='4' value='4 to 5 am' />
+          <alias key='5' value='5 to 6 am' />
+          <alias key='6' value='6 to 7 am' />
+          <alias key='7' value='7 to 8 am' />
+          <alias key='8' value='8 to 9 am' />
+          <alias key='9' value='9 to 10 am' />
+          <alias key='10' value='10 to 11 am' />
+          <alias key='11' value='11 to noon' />
+          <alias key='12' value='Noon to 1 pm' />
+          <alias key='13' value='1 to 2 pm' />
+          <alias key='14' value='2 to 3 pm' />
+          <alias key='15' value='3 to 4 pm' />
+          <alias key='16' value='4 to 5 pm' />
+          <alias key='17' value='5 to 6 pm' />
+          <alias key='18' value='6 to 7 pm' />
+          <alias key='19' value='7 to 8 pm' />
+          <alias key='20' value='8 to 9 pm' />
+          <alias key='21' value='9 to 10 pm' />
+          <alias key='22' value='10 to 11 pm' />
+          <alias key='23' value='11 pm to Mid' />
+          <alias key='24' value='11 to mid' />
+        </aliases>
+      </column>
+      <column caption='Leg' datatype='string' name='[leg]' role='dimension' type='nominal'>
+        <aliases>
+          <alias key='&quot;A&quot;' value='Ahead' />
+          <alias key='&quot;B&quot;' value='Back' />
+        </aliases>
+      </column>
+      <column caption='Median Count' datatype='real' name='[median_count]' role='measure' type='quantitative'>
+      </column>
+      <column aggregation='Sum' caption='Post Mile' datatype='real' name='[post_mile]' role='dimension' type='ordinal'>
+      </column>
+      <column aggregation='Sum' caption='Route' datatype='integer' name='[route]' role='dimension' type='ordinal'>
+      </column>
+      <column caption='Sd Count' datatype='real' name='[sd_count]' role='measure' type='quantitative'>
+      </column>
+      <column aggregation='Sum' caption='Station' datatype='integer' name='[station]' role='dimension' type='ordinal'>
+      </column>
+      <column aggregation='Sum' caption='Year' datatype='integer' name='[year]' role='dimension' type='ordinal'>
+      </column>
+      <column-instance column='[direction]' derivation='None' name='[none:direction:nk]' pivot='key' type='nominal' />
+      <extract count='-1' enabled='true' units='records'>
+        <connection class='dataengine' dbname='M:\Data\Traffic\Tableau Summaries\_working\typical-weekday-counts-1998-2013.tde' schema='Extract' tablename='Extract' update-time='08/14/2015 04:36:51 PM'>
+          <relation name='Extract' table='[Extract].[Extract]' type='table' />
+          <calculations>
+            <calculation column='[Number of Records]' formula='1' />
+          </calculations>
+          <refresh>
+            <refresh-event add-from-file-path='' increment-value='%null%' refresh-type='create' rows-inserted='16694' timestamp-start='2015-08-14 16:36:51.015' />
+          </refresh>
+          <metadata-records>
+            <metadata-record class='column'>
+              <remote-name>Number of Records</remote-name>
+              <remote-type>16</remote-type>
+              <local-name>[Number of Records]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>Number of Records</remote-alias>
+              <ordinal>0</ordinal>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>1</approx-count>
+              <contains-null>false</contains-null>
+              <statistics>
+                <statistic aggregation='Min' datatype='integer'>1</statistic>
+                <statistic aggregation='Max' datatype='integer'>1</statistic>
+              </statistics>
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteMetadata (ordered)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>1</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;sint8&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>avg_count</remote-name>
+              <remote-type>5</remote-type>
+              <local-name>[avg_count]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>avg_count</remote-alias>
+              <ordinal>1</ordinal>
+              <family>typical-weekday-counts#csv</family>
+              <local-type>real</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>16018</approx-count>
+              <contains-null>false</contains-null>
+              <statistics>
+                <statistic aggregation='Min' datatype='real'>0.0</statistic>
+                <statistic aggregation='Max' datatype='real'>10024.6808510638</statistic>
+              </statistics>
+              <attributes>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>county</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[county]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>county</remote-alias>
+              <ordinal>2</ordinal>
+              <family>typical-weekday-counts#csv</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>12</approx-count>
+              <scale>1</scale>
+              <width>1073741823</width>
+              <contains-null>false</contains-null>
+              <collation flag='0' name='LEN_RUS' />
+              <statistics>
+                <statistic aggregation='Min' datatype='string'>&quot;ALA&quot;</statistic>
+                <statistic aggregation='Max' datatype='string'>&quot;YOL&quot;</statistic>
+              </statistics>
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteCollation'>&quot;en_US&quot;</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (comparable)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteMetadata (compression)'>&quot;heap&quot;</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (distinct)'>true</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>4294967292</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (sort-position)'>2</attribute>
+                <attribute datatype='string' name='DebugRemoteMetadata (sort-sense)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (storagewidth)'>1</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;str&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>days_observed</remote-name>
+              <remote-type>16</remote-type>
+              <local-name>[days_observed]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>days_observed</remote-alias>
+              <ordinal>3</ordinal>
+              <family>typical-weekday-counts#csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>63</approx-count>
+              <contains-null>false</contains-null>
+              <statistics>
+                <statistic aggregation='Min' datatype='integer'>16</statistic>
+                <statistic aggregation='Max' datatype='integer'>78</statistic>
+              </statistics>
+              <attributes>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>1</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (sort-position)'>9</attribute>
+                <attribute datatype='string' name='DebugRemoteMetadata (sort-sense)'>&quot;asc&quot;</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;sint8&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>description</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[description]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>description</remote-alias>
+              <ordinal>4</ordinal>
+              <family>typical-weekday-counts#csv</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>77</approx-count>
+              <scale>1</scale>
+              <width>1073741823</width>
+              <contains-null>false</contains-null>
+              <collation flag='0' name='LEN_RUS' />
+              <statistics>
+                <statistic aggregation='Min' datatype='string'>&quot;.2-MI N/O NAPA/SOLANO COUNTY L&quot;</statistic>
+                <statistic aggregation='Max' datatype='string'>&quot;VALLEY FORD ROAD&quot;</statistic>
+              </statistics>
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteCollation'>&quot;en_US&quot;</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (comparable)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteMetadata (compression)'>&quot;heap&quot;</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (distinct)'>true</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>4294967292</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (sort-position)'>7</attribute>
+                <attribute datatype='string' name='DebugRemoteMetadata (sort-sense)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (storagewidth)'>2</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;str&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>direction</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[direction]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>direction</remote-alias>
+              <ordinal>5</ordinal>
+              <family>typical-weekday-counts#csv</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>4</approx-count>
+              <scale>1</scale>
+              <width>1073741823</width>
+              <contains-null>false</contains-null>
+              <collation flag='0' name='LEN_RUS' />
+              <statistics>
+                <statistic aggregation='Min' datatype='string'>&quot;E&quot;</statistic>
+                <statistic aggregation='Max' datatype='string'>&quot;W&quot;</statistic>
+              </statistics>
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteCollation'>&quot;en_US&quot;</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (comparable)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteMetadata (compression)'>&quot;heap&quot;</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (distinct)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteMetadata (ordered)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>4294967292</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (sort-position)'>0</attribute>
+                <attribute datatype='string' name='DebugRemoteMetadata (sort-sense)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (storagewidth)'>1</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;str&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>integer_hour</remote-name>
+              <remote-type>16</remote-type>
+              <local-name>[integer_hour]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>integer_hour</remote-alias>
+              <ordinal>6</ordinal>
+              <family>typical-weekday-counts#csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>24</approx-count>
+              <contains-null>false</contains-null>
+              <statistics>
+                <statistic aggregation='Min' datatype='integer'>0</statistic>
+                <statistic aggregation='Max' datatype='integer'>23</statistic>
+              </statistics>
+              <attributes>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>1</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (sort-position)'>4</attribute>
+                <attribute datatype='string' name='DebugRemoteMetadata (sort-sense)'>&quot;asc&quot;</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;sint8&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>leg</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[leg]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>leg</remote-alias>
+              <ordinal>7</ordinal>
+              <family>typical-weekday-counts#csv</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>5</approx-count>
+              <scale>1</scale>
+              <width>1073741823</width>
+              <contains-null>false</contains-null>
+              <collation flag='0' name='LEN_RUS' />
+              <statistics>
+                <statistic aggregation='Min' datatype='string'>&quot;A&quot;</statistic>
+                <statistic aggregation='Max' datatype='string'>&quot;X&quot;</statistic>
+              </statistics>
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteCollation'>&quot;en_US&quot;</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (comparable)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteMetadata (compression)'>&quot;heap&quot;</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (distinct)'>true</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>4294967292</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (sort-position)'>1</attribute>
+                <attribute datatype='string' name='DebugRemoteMetadata (sort-sense)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (storagewidth)'>1</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;str&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>median_count</remote-name>
+              <remote-type>4</remote-type>
+              <local-name>[median_count]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>median_count</remote-alias>
+              <ordinal>8</ordinal>
+              <family>typical-weekday-counts#csv</family>
+              <local-type>real</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>7340</approx-count>
+              <contains-null>false</contains-null>
+              <statistics>
+                <statistic aggregation='Min' datatype='real'>0.0</statistic>
+                <statistic aggregation='Max' datatype='real'>10147.0</statistic>
+              </statistics>
+              <attributes>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (comparable)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteMetadata (compression)'>&quot;array&quot;</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (distinct)'>true</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>4</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (storagewidth)'>2</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;float&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>post_mile</remote-name>
+              <remote-type>5</remote-type>
+              <local-name>[post_mile]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>post_mile</remote-alias>
+              <ordinal>9</ordinal>
+              <family>typical-weekday-counts#csv</family>
+              <local-type>real</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>74</approx-count>
+              <contains-null>false</contains-null>
+              <statistics>
+                <statistic aggregation='Min' datatype='real'>0.0</statistic>
+                <statistic aggregation='Max' datatype='real'>52.539000000000001</statistic>
+              </statistics>
+              <attributes>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (comparable)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteMetadata (compression)'>&quot;array&quot;</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (distinct)'>true</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (sort-position)'>6</attribute>
+                <attribute datatype='string' name='DebugRemoteMetadata (sort-sense)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (storagewidth)'>1</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>route</remote-name>
+              <remote-type>2</remote-type>
+              <local-name>[route]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>route</remote-alias>
+              <ordinal>10</ordinal>
+              <family>typical-weekday-counts#csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>24</approx-count>
+              <contains-null>false</contains-null>
+              <statistics>
+                <statistic aggregation='Min' datatype='integer'>1</statistic>
+                <statistic aggregation='Max' datatype='integer'>880</statistic>
+              </statistics>
+              <attributes>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (comparable)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteMetadata (compression)'>&quot;array&quot;</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (distinct)'>true</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>2</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (sort-position)'>5</attribute>
+                <attribute datatype='string' name='DebugRemoteMetadata (sort-sense)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (storagewidth)'>1</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;sint16&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>sd_count</remote-name>
+              <remote-type>5</remote-type>
+              <local-name>[sd_count]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>sd_count</remote-alias>
+              <ordinal>11</ordinal>
+              <family>typical-weekday-counts#csv</family>
+              <local-type>real</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>16124</approx-count>
+              <contains-null>false</contains-null>
+              <statistics>
+                <statistic aggregation='Min' datatype='real'>0.0</statistic>
+                <statistic aggregation='Max' datatype='real'>3877.92955829927</statistic>
+              </statistics>
+              <attributes>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>station</remote-name>
+              <remote-type>2</remote-type>
+              <local-name>[station]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>station</remote-alias>
+              <ordinal>12</ordinal>
+              <family>typical-weekday-counts#csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>80</approx-count>
+              <contains-null>true</contains-null>
+              <statistics>
+                <statistic aggregation='Min' datatype='integer'>1</statistic>
+                <statistic aggregation='Max' datatype='integer'>965</statistic>
+              </statistics>
+              <attributes>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (comparable)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteMetadata (compression)'>&quot;array&quot;</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (distinct)'>true</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>2</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (sort-position)'>8</attribute>
+                <attribute datatype='string' name='DebugRemoteMetadata (sort-sense)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (storagewidth)'>1</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;sint16&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>year</remote-name>
+              <remote-type>2</remote-type>
+              <local-name>[year]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>year</remote-alias>
+              <ordinal>13</ordinal>
+              <family>typical-weekday-counts#csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>17</approx-count>
+              <contains-null>false</contains-null>
+              <statistics>
+                <statistic aggregation='Min' datatype='integer'>1997</statistic>
+                <statistic aggregation='Max' datatype='integer'>2013</statistic>
+              </statistics>
+              <attributes>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (comparable)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteMetadata (compression)'>&quot;array&quot;</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (distinct)'>true</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>2</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (sort-position)'>3</attribute>
+                <attribute datatype='string' name='DebugRemoteMetadata (sort-sense)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (storagewidth)'>1</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;sint16&quot;</attribute>
+              </attributes>
+            </metadata-record>
+          </metadata-records>
+        </connection>
+      </extract>
+      <layout dim-ordering='alphabetic' dim-percentage='0.5' measure-ordering='alphabetic' measure-percentage='0.4' show-aliased-fields='true' show-structure='true' />
+      <semantic-values>
+        <semantic-value key='[Country].[Name]' value='&quot;United States&quot;' />
+      </semantic-values>
+      <default-sorts>
+        <sort class='manual' column='[none:direction:nk]' direction='ASC'>
+          <dictionary>
+            <bucket>&quot;N&quot;</bucket>
+            <bucket>&quot;S&quot;</bucket>
+            <bucket>&quot;E&quot;</bucket>
+            <bucket>&quot;W&quot;</bucket>
+          </dictionary>
+        </sort>
+      </default-sorts>
+    </datasource>
+  </datasources>
+  <worksheets>
+    <worksheet name='summary'>
+      <layout-options>
+        <title>
+          <formatted-text>
+            <run bold='false' fontname='Open Sans' fontsize='20' italic='true'>Typical Weekday Median Traffic Counts for Route </run>
+            <run fontname='Open Sans' fontsize='20' italic='true'>&lt;[textscan.42229.673161956016].[none:route:ok]&gt;</run>
+            <run bold='false' fontname='Open Sans' fontsize='20' italic='true'>Æ </run>
+            <run fontname='Open Sans' fontsize='20' italic='true'>&lt;[textscan.42229.673161956016].[none:direction:nk]&gt;</run>
+          </formatted-text>
+        </title>
+      </layout-options>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='typical-weekday-counts-1998-2013' name='textscan.42229.673161956016' />
+          </datasources>
+          <datasource-dependencies datasource='textscan.42229.673161956016'>
+            <column-instance column='[description]' derivation='Attribute' name='[attr:description:nk]' pivot='key' type='nominal' />
+            <column-instance column='[station]' derivation='Attribute' name='[attr:station:qk]' pivot='key' type='quantitative' />
+            <column caption='County' datatype='string' name='[county]' role='dimension' semantic-role='[County].[Name]' type='nominal'>
+              <aliases>
+                <alias key='&quot;ALA&quot;' value='Alameda' />
+                <alias key='&quot;CC&quot;' value='Contra Costa' />
+                <alias key='&quot;LAK&quot;' value='Lake' />
+                <alias key='&quot;MRN&quot;' value='Marin' />
+                <alias key='&quot;NAP&quot;' value='Napa' />
+                <alias key='&quot;SBT&quot;' value='San Benito' />
+                <alias key='&quot;SCL&quot;' value='Santa Clara' />
+                <alias key='&quot;SCR&quot;' value='Santa Cruz' />
+                <alias key='&quot;SF&quot;' value='San Francisco' />
+                <alias key='&quot;SJ&quot;' value='San Joaquin' />
+                <alias key='&quot;SM&quot;' value='San Mateo' />
+                <alias key='&quot;SOL&quot;' value='Solano' />
+                <alias key='&quot;SON&quot;' value='Sonoma' />
+                <alias key='&quot;YOL&quot;' value='Yolo' />
+              </aliases>
+            </column>
+            <column-instance column='[integer_hour]' derivation='CountD' name='[ctd:integer_hour:qk]' pivot='key' type='quantitative' />
+            <column caption='Days Observed' datatype='integer' name='[days_observed]' role='measure' type='quantitative'>
+            </column>
+            <column caption='Description' datatype='string' name='[description]' role='dimension' type='nominal'>
+            </column>
+            <column caption='Direction' datatype='string' name='[direction]' role='dimension' type='nominal'>
+              <aliases>
+                <alias key='&quot;E&quot;' value='Eastbound' />
+                <alias key='&quot;N&quot;' value='Northbound' />
+                <alias key='&quot;S&quot;' value='Southbound' />
+                <alias key='&quot;W&quot;' value='Westbound' />
+              </aliases>
+            </column>
+            <column aggregation='Sum' caption='Time Period' datatype='integer' name='[integer_hour]' role='dimension' type='ordinal'>
+              <aliases>
+                <alias key='0' value='Mid to 1 am' />
+                <alias key='1' value='1 to 2 am' />
+                <alias key='2' value='2 to 3 am' />
+                <alias key='3' value='3 to 4 am' />
+                <alias key='4' value='4 to 5 am' />
+                <alias key='5' value='5 to 6 am' />
+                <alias key='6' value='6 to 7 am' />
+                <alias key='7' value='7 to 8 am' />
+                <alias key='8' value='8 to 9 am' />
+                <alias key='9' value='9 to 10 am' />
+                <alias key='10' value='10 to 11 am' />
+                <alias key='11' value='11 to noon' />
+                <alias key='12' value='Noon to 1 pm' />
+                <alias key='13' value='1 to 2 pm' />
+                <alias key='14' value='2 to 3 pm' />
+                <alias key='15' value='3 to 4 pm' />
+                <alias key='16' value='4 to 5 pm' />
+                <alias key='17' value='5 to 6 pm' />
+                <alias key='18' value='6 to 7 pm' />
+                <alias key='19' value='7 to 8 pm' />
+                <alias key='20' value='8 to 9 pm' />
+                <alias key='21' value='9 to 10 pm' />
+                <alias key='22' value='10 to 11 pm' />
+                <alias key='23' value='11 pm to Mid' />
+                <alias key='24' value='11 to mid' />
+              </aliases>
+            </column>
+            <column caption='Leg' datatype='string' name='[leg]' role='dimension' type='nominal'>
+              <aliases>
+                <alias key='&quot;A&quot;' value='Ahead' />
+                <alias key='&quot;B&quot;' value='Back' />
+              </aliases>
+            </column>
+            <column caption='Median Count' datatype='real' name='[median_count]' role='measure' type='quantitative'>
+            </column>
+            <column-instance column='[days_observed]' derivation='Min' name='[min:days_observed:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[county]' derivation='None' name='[none:county:nk]' pivot='key' type='nominal' />
+            <column-instance column='[direction]' derivation='None' name='[none:direction:nk]' pivot='key' type='nominal' />
+            <column-instance column='[integer_hour]' derivation='None' name='[none:integer_hour:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[leg]' derivation='None' name='[none:leg:nk]' pivot='key' type='nominal' />
+            <column-instance column='[post_mile]' derivation='None' name='[none:post_mile:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[route]' derivation='None' name='[none:route:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[year]' derivation='None' name='[none:year:ok]' pivot='key' type='ordinal' />
+            <column aggregation='Sum' caption='Post Mile' datatype='real' name='[post_mile]' role='dimension' type='ordinal'>
+            </column>
+            <column aggregation='Sum' caption='Route' datatype='integer' name='[route]' role='dimension' type='ordinal'>
+            </column>
+            <column aggregation='Sum' caption='Station' datatype='integer' name='[station]' role='dimension' type='ordinal'>
+            </column>
+            <column-instance column='[median_count]' derivation='Sum' name='[sum:median_count:qk]' pivot='key' type='quantitative' />
+            <column aggregation='Sum' caption='Year' datatype='integer' name='[year]' role='dimension' type='ordinal'>
+            </column>
+          </datasource-dependencies>
+          <filter class='categorical' column='[textscan.42229.673161956016].[none:county:nk]'>
+            <groupfilter function='level-members' level='[none:county:nk]' />
+          </filter>
+          <filter class='categorical' column='[textscan.42229.673161956016].[none:direction:nk]'>
+            <groupfilter function='member' level='[none:direction:nk]' member='&quot;W&quot;' user:ui-domain='relevant' user:ui-enumeration='inclusive' user:ui-marker='enumerate' />
+          </filter>
+          <filter class='categorical' column='[textscan.42229.673161956016].[none:integer_hour:ok]'>
+            <groupfilter function='level-members' level='[none:integer_hour:ok]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+          </filter>
+          <filter class='categorical' column='[textscan.42229.673161956016].[none:leg:nk]'>
+            <groupfilter function='union' user:ui-domain='database' user:ui-enumeration='inclusive' user:ui-marker='enumerate'>
+              <groupfilter function='member' level='[none:leg:nk]' member='&quot;A&quot;' />
+              <groupfilter function='member' level='[none:leg:nk]' member='&quot;B&quot;' />
+            </groupfilter>
+          </filter>
+          <filter class='categorical' column='[textscan.42229.673161956016].[none:route:ok]'>
+            <groupfilter function='member' level='[none:route:ok]' member='80' user:ui-domain='relevant' user:ui-enumeration='inclusive' user:ui-marker='enumerate' />
+          </filter>
+          <slices>
+            <column>[textscan.42229.673161956016].[none:route:ok]</column>
+            <column>[textscan.42229.673161956016].[none:leg:nk]</column>
+            <column>[textscan.42229.673161956016].[none:integer_hour:ok]</column>
+            <column>[textscan.42229.673161956016].[none:county:nk]</column>
+            <column>[textscan.42229.673161956016].[none:direction:nk]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='cell'>
+            <format attr='height' field='[textscan.42229.673161956016].[none:leg:nk]' value='47' />
+            <format attr='width' field='[textscan.42229.673161956016].[none:year:ok]' value='67' />
+            <format attr='text-format' field='[textscan.42229.673161956016].[sum:median_count:qk]' value='n#,##0;-#,##0' />
+          </style-rule>
+          <style-rule element='header'>
+            <format attr='width' field='[textscan.42229.673161956016].[none:county:nk]' value='92' />
+            <format attr='width' field='[textscan.42229.673161956016].[none:post_mile:ok]' value='64' />
+            <format attr='width' field='[textscan.42229.673161956016].[none:leg:nk]' value='60' />
+            <format attr='height' field='[textscan.42229.673161956016].[none:year:ok]' value='48' />
+          </style-rule>
+          <style-rule element='worksheet'>
+            <format attr='font-size' value='12' />
+          </style-rule>
+          <style-rule element='quick-filter'>
+            <format attr='font-size' value='13' />
+            <format attr='color' value='#ffffff' />
+            <format attr='background-color' value='#555555' />
+          </style-rule>
+          <style-rule element='quick-filter-title'>
+            <format attr='font-size' value='13' />
+            <format attr='color' value='#ffffff' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <encodings>
+              <text column='[textscan.42229.673161956016].[sum:median_count:qk]' />
+              <tooltip column='[textscan.42229.673161956016].[attr:description:nk]' />
+              <tooltip column='[textscan.42229.673161956016].[min:days_observed:qk]' />
+              <tooltip column='[textscan.42229.673161956016].[attr:station:qk]' />
+              <tooltip column='[textscan.42229.673161956016].[ctd:integer_hour:qk]' />
+            </encodings>
+            <customized-tooltip>
+              <formatted-text>
+                <run bold='true' fontname='Open Sans' fontsize='16'>&lt;[textscan.42229.673161956016].[attr:description:nk]&gt;</run>
+                <run fontcolor='#787878' fontname='Open Sans' fontsize='16' italic='true'>&#10;Station: </run>
+                <run bold='true' fontname='Open Sans' fontsize='16'>&lt;[textscan.42229.673161956016].[attr:station:qk]&gt;</run>
+                <run fontcolor='#787878' fontname='Open Sans' fontsize='16' italic='true'>&#10;Time Periods Represented: </run>
+                <run bold='true' fontname='Open Sans' fontsize='16'>&lt;[textscan.42229.673161956016].[ctd:integer_hour:qk]&gt;</run>
+                <run fontcolor='#787878' fontname='Open Sans' fontsize='16' italic='true'>&#10;Minimum Observations: </run>
+                <run bold='true' fontname='Open Sans' fontsize='16'>&lt;[textscan.42229.673161956016].[min:days_observed:qk]&gt;&#10;</run>
+              </formatted-text>
+            </customized-tooltip>
+            <style>
+              <style-rule element='mark'>
+                <format attr='mark-labels-show' value='true' />
+              </style-rule>
+              <style-rule element='pane'>
+                <format attr='minheight' value='-1' />
+                <format attr='maxheight' value='-1' />
+                <format attr='minwidth' value='-1' />
+                <format attr='maxwidth' value='-1' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows>([textscan.42229.673161956016].[none:county:nk] / ([textscan.42229.673161956016].[none:post_mile:ok] / [textscan.42229.673161956016].[none:leg:nk]))</rows>
+        <cols>[textscan.42229.673161956016].[none:year:ok]</cols>
+      </table>
+    </worksheet>
+  </worksheets>
+  <windows>
+    <window class='schema' source-height='-1' />
+    <window auto-hidden='0' class='worksheet' maximized='1' name='summary'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+          <strip size='150'>
+            <card mode='dropdown' param='[textscan.42229.673161956016].[none:route:ok]' show-all='false' type='filter' />
+            <card mode='radiolist' param='[textscan.42229.673161956016].[none:direction:nk]' show-all='false' type='filter' values='relevant' />
+            <card param='[textscan.42229.673161956016].[none:county:nk]' type='filter' />
+            <card param='[textscan.42229.673161956016].[none:integer_hour:ok]' type='filter' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='99'>
+            <card type='title' />
+          </strip>
+        </edge>
+      </cards>
+      <highlight>
+        <color-one-way>
+          <field>[textscan.42229.673161956016].[none:county:nk]</field>
+          <field>[textscan.42229.673161956016].[none:description:nk]</field>
+          <field>[textscan.42229.673161956016].[none:direction:nk]</field>
+          <field>[textscan.42229.673161956016].[none:integer_hour:ok]</field>
+          <field>[textscan.42229.673161956016].[none:leg:nk]</field>
+          <field>[textscan.42229.673161956016].[none:post_mile:ok]</field>
+          <field>[textscan.42229.673161956016].[none:route:ok]</field>
+          <field>[textscan.42229.673161956016].[none:station:ok]</field>
+          <field>[textscan.42229.673161956016].[none:year:ok]</field>
+        </color-one-way>
+      </highlight>
+    </window>
+  </windows>
+  <thumbnails>
+    <thumbnail height='192' name='summary' width='192'>
+      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
+    </thumbnail>
+  </thumbnails>
+</workbook>
