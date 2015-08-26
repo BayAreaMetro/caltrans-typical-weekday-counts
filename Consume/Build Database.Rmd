@@ -17,7 +17,6 @@ This script consumes Rupinder's Caltrans traffic count files.  The data is melte
 
 #### TODO
 1.  Move a step back in the sequence?
-2.  Incorporate RS's 2014 data
 
 
 ## Procedure
@@ -43,7 +42,7 @@ start_time <- proc.time()
 #### Remote IO Locations
 ```{r remote-io}
 F_INPUT_DIR = "M:/Data/Traffic/Tableau Summaries/_working/"
-INPUT_FILE  = "98_13_PMwithdecimal_no_single.txt"
+INPUT_FILE  = "98_14_no_single.txt"
 
 F_OUTPUT_DIR = "D:/files/Box Sync/Share Data/caltrans-typical-weekday/"
 OUTPUT_FILE = "typical-weekday-counts.csv"
@@ -90,30 +89,30 @@ clean_df <- melt(clean_df, id = c("route", "county", "post_mile", "leg",
 clean_df <- clean_df %>%
   rename(count = value) %>%
   mutate(integer_hour = 
-           (variable == 'END1AM')  * 1 +
-           (variable == 'END2AM')  * 2 +
-           (variable == 'END3AM')  * 3 +
-           (variable == 'END4AM')  * 4 +
-           (variable == 'END5AM')  * 5 +
-           (variable == 'END6AM')  * 6 +
-           (variable == 'END7AM')  * 7 +
-           (variable == 'END8AM')  * 8 +
-           (variable == 'END9AM')  * 9 +
-           (variable == 'END10AM') * 10 +
-           (variable == 'END11AM') * 11 +
+           (variable == 'END1AM')   * 1 +
+           (variable == 'END2AM')   * 2 +
+           (variable == 'END3AM')   * 3 +
+           (variable == 'END4AM')   * 4 +
+           (variable == 'END5AM')   * 5 +
+           (variable == 'END6AM')   * 6 +
+           (variable == 'END7AM')   * 7 +
+           (variable == 'END8AM')   * 8 +
+           (variable == 'END9AM')   * 9 +
+           (variable == 'END10AM')  * 10 +
+           (variable == 'END11AM')  * 11 +
            (variable == 'END12NOO') * 12 +
-           (variable == 'END1PM')  * 13 +
-           (variable == 'END2PM')  * 14 +
-           (variable == 'END3PM')  * 15 +
-           (variable == 'END4PM')  * 16 +
-           (variable == 'END5PM')  * 17 +
-           (variable == 'END6PM')  * 18 +
-           (variable == 'END7PM')  * 19 +
-           (variable == 'END8PM')  * 20 +
-           (variable == 'END9PM')  * 21 +
+           (variable == 'END1PM')   * 13 +
+           (variable == 'END2PM')   * 14 +
+           (variable == 'END3PM')   * 15 +
+           (variable == 'END4PM')   * 16 +
+           (variable == 'END5PM')   * 17 +
+           (variable == 'END6PM')   * 18 +
+           (variable == 'END7PM')   * 19 +
+           (variable == 'END8PM')   * 20 +
+           (variable == 'END9PM')   * 21 +
            (variable == 'END10PM')  * 22 +
-           (variable == 'END11PM') * 23 +
-           (variable == 'ENDNIG') * 24) %>%
+           (variable == 'END11PM')  * 23 +
+           (variable == 'ENDNIG')   * 24) %>%
   select(-variable)
 
 # Create typical weekday flag
