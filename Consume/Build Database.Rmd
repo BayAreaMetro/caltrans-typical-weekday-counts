@@ -148,9 +148,9 @@ typical_df <- left_join(typical_df, typical_sum_df, by = c("route", "county", "p
 
 # Flag suspect counts (use four standard deviations across years)
 typical_df <- typical_df %>%
-  mutate(three_sd_low  = avg_count - 4 * sd_count) %>%
-  mutate(three_sd_high = avg_count + 4 * sd_count) %>%
-  mutate(suspect_flag = (count < three_sd_low) + (count > three_sd_high))
+  mutate(four_sd_low  = avg_count - 4 * sd_count) %>%
+  mutate(four_sd_high = avg_count + 4 * sd_count) %>%
+  mutate(suspect_flag = (count < four_sd_low) + (count > four_sd_high))
 
 table(typical_df$suspect_flag)
 
