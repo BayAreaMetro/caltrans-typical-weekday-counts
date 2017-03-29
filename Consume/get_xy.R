@@ -1,39 +1,46 @@
 library(readr)
-setwd("C:/projects/caltrans-typical-weekday-counts")
-typical_weekday_counts <- read_csv("C:/projects/caltrans-typical-weekday-counts/data/typical-weekday-counts.csv")
-
-#format the request
-
 library(RCurl)
+library(XML)
+
+soap_head <- '<?xml version="1.0" encoding="utf-8"?>
+              <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
+              xmlns:q0="urn:webservice.postmile.lrs.gis.dot.ca.gov" 
+              xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+              <soapenv:Body>'
+
+soap_foot <- '</soapenv:Body></soapenv:Envelope>'
 
 validate.postmile.parameters <- function(countyCode,
-                                         postmileSuffixCode,
                                          postmileValue,
-                                         routeNumber){
+                                         routeNumber,
+                                         postmileSuffixCode){
 
-    body_start = '<?xml version="1.0" encoding="utf-8"?>
-                  <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-                  <soap:Body>
-                  <validatePostmileParameters xmlns="urn:webservice.postmile.lrs.gis.dot.ca.gov">
-                  <options>
-                  <effectiveDate xsi:nil="true"/>
-                  <tolerance>0.1</tolerance>
-                  </options>
-                  <postmileEvent>'
 
-    body_middle <- paste("<q0:alignmentCode>",postmileSuffixCode,"</q0:alignmentCode>",
-                         "<q0:countyCode>",countyCode,"</q0:countyCode>",
-                        "<q0:postmileValue>",postmileValue,"</q0:postmileValue>",
-                        "<q0:routeNumber>",routeNumber,"</q0:routeNumber>",
-                        sep = "")  
+    validate_head = '<validatePostmileParameters 
+                          xmlns="urn:webservice.postmile.lrs.gis.dot.ca.gov">
+                      <options>
+                        <effectiveDate xsi:nil="true"/>
+                        <tolerance>0.1</tolerance>
+                      </options>
+                      <postmileEvent>'
+
+    postmile_xml <- paste("<q0:alignmentCode>",postmileSuffixCode,"</q0:alignmentCode>",
+                             "<q0:countyCode>",countyCode,"</q0:countyCode>",
+                             "<q0:postmileValue>",postmileValue,"</q0:postmileValue>",
+                             "<q0:routeNumber>",routeNumber,"</q0:routeNumber>",
+                       sep = "")  
     
-    body_end <- '</postmileEvent>
-                <postmileSegmentEvent xsi:nil="true"/>
-                </validatePostmileParameters>
-                </soap:Body>
-                </soap:Envelope>'
+    validate_end <-   '</postmileEvent>
+                      <postmileSegmentEvent xsi:nil="true"/>
+                    </validatePostmileParameters>'
     
-    body <- paste(body_start,body_middle,body_end, sep="")
+    body <- paste(soap_head,
+                  validate_head,
+                  postmile_xml,
+                  validate_end,
+                  soap_foot, 
+            sep="")
 
     headerFields =
       c(Accept = "text/xml",
@@ -53,8 +60,6 @@ validate.postmile.parameters <- function(countyCode,
     h$value()
 }
 
-library("XML")
-
 parse.caltrans.xml.for.valid.postmile <- function(some.caltrans.xml) {
     isXMLString(some.caltrans.xml)
     
@@ -68,6 +73,7 @@ parse.caltrans.xml.for.valid.postmile <- function(some.caltrans.xml) {
     if (candidateCount>1){
       print("more than 1 candidate")
     }
+
     countyCode <- cnd$item$candidatePostmile$countyCode
     postmilePrefixCode <- cnd$item$candidatePostmile$postmilePrefixCode
     postmileValue <- cnd$item$candidatePostmile$postmileValue
@@ -80,30 +86,34 @@ parse.caltrans.xml.for.valid.postmile <- function(some.caltrans.xml) {
 get.coordinates.for.postmile <- function(countyCode,
                                       postmileSuffixCode,
                                       postmileValue,
-                                      routeNumber) {
+                                      routeNumber,
+                                      postmilePrefixCode='') {
     #build request
-    body_start <- '<?xml version="1.0" encoding="utf-8"?>
-    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:q0="urn:webservice.postmile.lrs.gis.dot.ca.gov" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <soapenv:Body>
-    <q0:getCoordinatesForPostmileParameters>
-    <q0:options>
-    <q0:alignmentType>0</q0:alignmentType>
-    <q0:offsetDistance>0</q0:offsetDistance>
-    </q0:options>
-    <q0:postmileEvent><q0:alignmentCode xsi:nil="true"/>'
+    get_coords_head <- '<q0:getCoordinatesForPostmileParameters>
+                                <q0:options>
+                                  <q0:alignmentType>0</q0:alignmentType>
+                                  <q0:offsetDistance>0</q0:offsetDistance>
+                                </q0:options>
+                             <q0:postmileEvent>
+                             <q0:alignmentCode xsi:nil="true"/>'
 
-    body_middle <- paste("<q0:countyCode>",countyCode,"</q0:countyCode>",
-                "<q0:alignmentCode>",postmileSuffixCode,"</q0:alignmentCode>",
-                "<q0:postmileValue>",postmileValue,"</q0:postmileValue>",
-                "<q0:routeNumber>",routeNumber,"</q0:routeNumber>",
-                sep = "")  
+    postmile_xml <- paste("<q0:countyCode>",countyCode,"</q0:countyCode>",
+                         "<q0:alignmentCode>",postmileSuffixCode,"</q0:alignmentCode>",
+                         "<q0:postmileValue>",postmileValue,"</q0:postmileValue>",
+                         "<q0:routeNumber>",routeNumber,"</q0:routeNumber>",
+                         "<q0:postmilePrefixCode>",postmilePrefixCode,"</q0:postmilePrefixCode>",
+                   sep = "")  
   
-    body_end <- '</q0:postmileEvent>
-    <q0:postmileSegmentEvent xsi:nil="true"/>
-    </q0:getCoordinatesForPostmileParameters>
-    </soapenv:Body></soapenv:Envelope>'
+    get_coords_foot <- '</q0:postmileEvent>
+                       <q0:postmileSegmentEvent xsi:nil="true"/>
+                       </q0:getCoordinatesForPostmileParameters>'
 
-    body <- paste(body_start,body_middle,body_end, sep="")
+    body <- paste(soap_head,
+                  get_coords_head,
+                  postmile_xml,
+                  get_coords_foot,
+                  soap_foot, 
+            sep="")
    
     #make the request
     headerFields =
@@ -123,8 +133,6 @@ get.coordinates.for.postmile <- function(countyCode,
     
     h$value()
 }
-
-library("XML")
 
 parse.caltrans.xml.for.xy <- function(some.caltrans.xml) {
   # check the string
@@ -149,51 +157,75 @@ parse.caltrans.xml.for.xy <- function(some.caltrans.xml) {
 }
 
 
-get.coordinates.for.df <- function(county,suffix,post_mile,route){
+#this function is passed to an apply function
+#it accepts a single set of postmile parameters, 
+#checks their validity, accepting candidate params if necessary,
+#and then requests the x/y coordinates for it
+get.coordinates.for.df <- function(l2){
   
-  valid.postmile.xml <- validate.postmile.parameters()
-  x <- xmlInternalTreeParse(valid.postmile.xml) 
-  l1 <- xmlToList(x)
+  coords.postmile.xml <- do.call(get.coordinates.for.postmile,l2)
   
-  if (l1$Body$validatePostmileReturn$isValid == "false") {
-    v1 <- parse.caltrans.xml.for.valid.postmile() 
-    ct.xml <- do.call(get.coordinates.for.postmile, as.list(v1))
+  xy <- parse.caltrans.xml.for.xy(coords.postmile.xml)
+  
+  #weirdly, the validation service will return a "not valid", even
+  #though the get.coordinates service will return an x/y for the same parameters
+  #so, as a kind of hack, we will just do a validation check on 
+  #postmiles that don't get an x/y back
+  
+  if (xy[1]==-99 ) {
+    #validate the postmile-sometimes its missing a prefix
+    #the service will return a best guess for the prefix 
+    validate.postmile.xml <- do.call(validate.postmile.parameters,l2)
+    v1 <- parse.caltrans.xml.for.valid.postmile(validate.postmile.xml)
+    if (length(names(v1[2]))>0 && names(v1[2])=="nil"){
+      xy <- c(-99,-99)
+    }
+    else
+    {
+      coords.postmile.xml <- do.call(get.coordinates.for.postmile, as.list(c(v1,l2$postmileSuffixCode)))
+      xy <- parse.caltrans.xml.for.xy(coords.postmile.xml)
+    }
+    xy
   }
-  else {
-    ct.xml <- get.coordinates.for.postmile(countyCode = county,
-                                           postmileSuffixCode = suffix,
-                                           postmileValue = post_mile,
-                                           routeNumber = route)
-  }
-  if (ct.xml != "") {
-    xy <- parse.caltrans.xml.for.xy(ct.xml)
-  } else {
-    xy = c('nil','nil')
-  }
+  
   Sys.sleep(1)
   xy
 }
 
+######
+#Example requests
+######
+
+setwd("C:/projects/caltrans-typical-weekday-counts")
+typical_weekday_counts <- read_csv("C:/projects/caltrans-typical-weekday-counts/data/typical-weekday-counts.csv")
+
 twc_unq <- unique(typical_weekday_counts[,c("county","post_mile","route","direction")])
 
-#get the suffix caltrans web service expects
-twc_unq$suffix <- replace(twc_unq$direction,twc_unq$direction=="N","R")
-twc_unq$suffix <- replace(twc_unq$suffix,twc_unq$suffix=="E","R")
-twc_unq$suffix <- replace(twc_unq$suffix,twc_unq$suffix=="S","L")
-twc_unq$suffix <- replace(twc_unq$suffix,twc_unq$suffix=="W","L")
+#put the suffix caltrans web service expects
+twc_unq$postmileSuffixCode <- replace(twc_unq$direction,twc_unq$direction=="N","R")
+twc_unq$postmileSuffixCode <- replace(twc_unq$postmileSuffixCode,twc_unq$postmileSuffixCode=="E","R")
+twc_unq$postmileSuffixCode <- replace(twc_unq$postmileSuffixCode,twc_unq$postmileSuffixCode=="S","L")
+twc_unq$postmileSuffixCode <- replace(twc_unq$postmileSuffixCode,twc_unq$postmileSuffixCode=="W","L")
 
+#put an id on the unique location table for merging back into main table later
 twc_unq$ID <- 1:nrow(twc_unq)
 
+#change column names to CalTrans webservice names
+library(data.table)
+setnames(twc_unq, old = c('county','post_mile','route'), new = c('countyCode','postmileValue','routeNumber'))
 
-twc_xy <- apply(twc_unq[,1:5], 1, function(x) get.coordinates.for.df(x[['county']],
-                               x[['suffix']],
-                               x[['post_mile']], 
-                               as.integer(x[['route']])))
+#make the route column an int
+twc_unq$routeNumber <- as.numeric(as.character(twc_unq$routeNumber))
 
+#iterate over the df
+twc_xy <- apply(twc_unq[,c('countyCode','postmileValue','routeNumber','postmileSuffixCode')], 1, function(x) get.coordinates.for.df(as.list(x)))
+
+#format xy's and merge back with df, output to csv
 twc_xy_t <- t(twc_xy)
 twc_unq_xy <- cbind(twc_xy_t,twc_unq)
-write.csv(twc_unq_xy, file = "data/twc_xy.csv")
+write.csv(twc_unq_xy, file = "data/twc_xy_validated.csv")
 
-typical_weekday_counts <- merge(typical_weekday_counts, twc_unq)
-
-
+#import the manual fixes and merge with the original
+twc_xy_validated_manual_fill <- read_csv("C:/projects/caltrans-typical-weekday-counts/data/twc_xy_validated_manual_fill.csv")
+twcs <- twc_xy_validated_manual_fill[,c('countyCode','postmileValue','routeNumber','postmileSuffixCode','ID','latitude','longitude')]
+typical_weekday_counts_manual <- merge(typical_weekday_counts, twcs)
