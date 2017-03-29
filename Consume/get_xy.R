@@ -235,6 +235,10 @@ twcs$route <- str_pad(twcs$route, 3, pad = "0")
 
 typical_weekday_counts_manual <- merge(typical_weekday_counts, twcs, by=c("county","route","post_mile","direction"))
 
-dim(typical_weekday_counts_manual) == dim(typical_weekday_counts_manual) 
-
-write.csv(typical_weekday_counts_manual, file = "data/typical_weekday_counts_xy.csv")
+if (dim(typical_weekday_counts_manual)[1] == dim(typical_weekday_counts_manual)[1])
+  {
+    write.csv(typical_weekday_counts_manual, file = "data/typical_weekday_counts_xy.csv") 
+  } else 
+  { 
+    print("merge failed") 
+  }
