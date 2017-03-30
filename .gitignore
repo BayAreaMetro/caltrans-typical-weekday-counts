@@ -12,3 +12,6 @@
 vignettes/*.html
 vignettes/*.pdf
 .Rproj.user
+
+#large data files
+data/98_14_no_single.txt
