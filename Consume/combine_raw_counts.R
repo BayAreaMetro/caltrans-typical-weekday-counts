@@ -111,11 +111,10 @@ allyears_df <- mutate(allyears_df,
 # convert some character fields to numbers and trim whitespace
 allyears_df <- mutate(allyears_df,
                       POSTMILP =trimws(POSTMILP),
-                      PM       =as.numeric(PM),
+                      PM       =trimws(PM),
                       POSTMILS =trimws(POSTMILS),
                       COUNTY   =trimws(COUNTY),
-                      ROADTYPE =trimws(ROADTYPE),
-                      STATION  =as.numeric(STATION))
+                      ROADTYPE =trimws(ROADTYPE))
 
 print(head(allyears_df))
 
