@@ -1,73 +1,52 @@
----
-title: "Build Database"
-author: "David Ory"
-output: 
-   html_document:
-      theme: cosmo
-      toc: yes
----
-
+#
 ## Administration
-
+#
 #### Purpose
-This script consumes Rupinder's Caltrans traffic count files.  The data is melted into a simpler database format and outlier counts are identified and removed. 
-
+# This script consumes Caltrans traffic count files.
+# The data is melted into a simpler database format and outlier counts are identified and removed. 
+#
 #### Outputs
-1.  A consolidated database of clean Caltrans counts for typical weekdays
-
+#  A consolidated database of clean Caltrans counts for typical weekdays
+#
 #### TODO
-1.  Move a step back in the sequence?
+#  Move a step back in the sequence?
+#
 
 
 ## Procedure
 
 #### Overhead
-```{r overhead, results = 'hide'}
-library(knitr)
 library(reshape2)
 suppressMessages(library(dplyr))
 library(timeDate)
 library(chron)
-```
-
-```{r config, include=FALSE}
-knitr::opts_chunk$set(cache=TRUE)
-```
 
 #### Start timer
-```{r timer-start}
 start_time <- proc.time()
-```
 
 #### Remote IO Locations
-```{r remote-io}
-F_INPUT_DIR = "M:/Data/Traffic/Tableau Summaries/"
-INPUT_FILE  = "98_14_no_single.txt"
+F_INPUT_DIR = "M:/Data/Traffic/Caltrans/Processed Data"
+INPUT_FILE  = "counts_1998-2016.csv"
 
-F_OUTPUT_DIR = "D:/files/Box Sync/Share Data/caltrans-typical-weekday/"
-OUTPUT_FILE = "typical-weekday-counts.csv"
-```
+F_OUTPUT_DIR = "C:/Users/lzorn/Box Sync/Share Data/caltrans-typical-weekday"
+OUTPUT_FILE  = "typical-weekday-counts.csv"
+
 
 #### Parameters
-```{r parameters}
 # Relevant holidays database
 HOLIDAY_LIST  <- c("USLaborDay", "USMemorialDay", "USThanksgivingDay", "USVeteransDay")
 HOLIDAY_DATES <- dates(as.character(holiday(1998:2020, HOLIDAY_LIST)), format = "Y-M-D")
 
 # Minimum number of days observed for estimates to be retained
 MIN_DAYS_OBSERVED = 15
-```
 
 
 #### Data reads
-```{r data-reads}
-input_file_name <- paste(F_INPUT_DIR, INPUT_FILE, sep = "")
-input_df <- read.table(file = input_file_name, header = TRUE, sep = ",", stringsAsFactors = FALSE, strip.white = TRUE)
-
-```
+input_file_name <- file.path(F_INPUT_DIR, INPUT_FILE)
+input_df <- read.table(file = input_file_name, header = TRUE, sep = ",", stringsAsFactors = FALSE, strip.white = TRUE,
+                       colClasses=c("ROUTE"="character"))
 
 #### Data cleaning
-```{r data-cleaning}
 # select the variables of interest
 clean_df <- input_df %>%
   select(route = ROUTE, 
@@ -117,7 +96,7 @@ clean_df <- clean_df %>%
 
 # Create typical weekday flag
 clean_df <- clean_df %>%
-  mutate(date = as.Date(date_string, format = "%d%B%y")) %>%
+  mutate(date = as.Date(date_string)) %>%
   mutate(day_of_week = weekdays(date)) %>%
   mutate(typical_day_of_week = (day_of_week == "Tuesday") * 1 + 
            (day_of_week == "Wednesday") * 1 + 
@@ -134,16 +113,16 @@ clean_df <- clean_df %>%
   mutate(typical_weekday = typical_day_of_week * typical_month * not_holiday) %>%
   select(-day_of_week, -typical_day_of_week, -month, -typical_month, -not_holiday)
 
+# We only care about records for typical weekdays an non-NA
+typical_df <- clean_df %>%
+  filter(typical_weekday == 1, !is.na(count))
+
 # Typical weekday summaries
-typical_sum_df <- clean_df %>%
-  filter(typical_weekday == 1) %>%
+typical_sum_df <- typical_df %>%
   group_by(route, county, post_mile, leg, direction, station, description, integer_hour) %>%
   summarise(median_count = median(count), avg_count = mean(count), sd_count = sd(count), days_observed = n())
 
 # Join typical weekday stats to each record
-typical_df <- clean_df %>%
-  filter(typical_weekday == 1)
-
 typical_df <- left_join(typical_df, typical_sum_df, by = c("route", "county", "post_mile", "leg", "direction", "station", "description", "integer_hour"))
 
 # Flag suspect counts (use four standard deviations across years)
@@ -175,17 +154,13 @@ typical_sum_df <- typical_df %>%
             sd_count = sd(count), days_observed = sum(record_weight)) %>%
   filter(days_observed > MIN_DAYS_OBSERVED)
 
-```
-
 #### Write to disk
-```{r data-writes}
-output_file_name <- paste(F_OUTPUT_DIR, OUTPUT_FILE, sep = "")
+output_file_name <- file.path(F_OUTPUT_DIR, OUTPUT_FILE)
 write.csv(typical_sum_df, file = output_file_name, row.names = FALSE, quote = T)
-```
+
 
 #### End timer
-```{r timer-end}
 run_time <- proc.time() - start_time
 run_time
-```
+
 
