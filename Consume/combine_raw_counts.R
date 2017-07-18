@@ -104,7 +104,8 @@ for (year in START_YEAR:END_YEAR) {
 
 # create date, ident
 allyears_df <- mutate(allyears_df,
-                      date=paste(YEAR,MONTH,DATE1, sep="-"),
+                      YEAR=ifelse(YEAR>90, YEAR+1900, YEAR+2000),
+                      date=sprintf("%4d-%02d-%02d", YEAR,MONTH,DATE1),
                       ident=paste0(ROUTE,ROUTESEQ,DISTRICTid,COUNTY,POSTMILP,PM,POSTMILS,LEG,DIR))
 
 # convert some character fields to numbers and trim whitespace
