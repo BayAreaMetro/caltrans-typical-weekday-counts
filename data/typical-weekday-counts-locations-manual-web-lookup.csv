@@ -1,0 +1,14 @@
+latitude,longitude,countyCode,postmileValue,routeNumber,direction,postmileSuffixCode,loc_source
+37.617794,-122.15255,ALA,2.594,92,W,L,from web lookup 2020-02-14
+37.588874,-121.870837,ALA,11.042,680,S,L,from web lookup 2020-02-15
+37.996215,-121.785406,CC,28.94,4,W,L,from web lookup 2020-02-16
+37.978896,-121.744213,CC,31.368,4,W,L,from web lookup 2020-02-17
+37.878729,-122.184219,CC,2.313,24,W,L,from web lookup 2020-02-18
+37.893884,-122.12155,CC,6.257,24,W,L,from web lookup 2020-02-19
+38.005877,-122.035696,CC,3.398,242,S,L,from web lookup 2020-02-20
+37.811386,-121.992876,CC,6.764,680,S,L,from web lookup 2020-02-21
+37.958841,-122.052548,CC,18.707,680,S,L,from web lookup 2020-02-22
+38.038539,-122.120974,CC,25.46,680,N,R,from web lookup 2020-02-23
+37.464524,-121.904125,SCL,9.935,680,S,L,from web lookup 2020-02-24
+38.138193,-122.257412,SOL,9.527,37,W,L,from web lookup 2020-02-25
+38.138193,-122.257412,YOL,22.356,505,S,L,from web lookup 2020-02-26

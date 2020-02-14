@@ -1,15 +1,29 @@
+##
+# This script does the following:
+# 1) Read the counts data file from Box
+# 2) Lookup the locations of the counts using the Postmile Webservice
+# 3) Merge in the manual locations for those that have failed in the past
+# 4) Save the lookup file to Box
+##
+
+library(dplyr)
 library(readr)
 library(RCurl)
 library(XML)
 
-soap_head <- '<?xml version="1.0" encoding="utf-8"?>
-              <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
-              xmlns:q0="urn:webservice.postmile.lrs.gis.dot.ca.gov" 
-              xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-              <soapenv:Body>'
+now                 <- Sys.time()
+BOX_DATA_DIR        <- file.path(Sys.getenv("HOME"),"..","Box","Modeling and Surveys","Share Data","caltrans-typical-weekday")
+GIT_REPO_DIR        <- "X:/caltrans-typical-weekday-counts"
 
-soap_foot <- '</soapenv:Body></soapenv:Envelope>'
+# input files
+COUNT_FILE          <- file.path(BOX_DATA_DIR,"typical-weekday-counts.csv")           # counts with locations
+MANUAL_LOC_FILE     <- "data/typical-weekday-counts-locations-manual-web-lookup.csv"  # locations manually looked up
+
+# this is the output file
+COUNT_LOCATION_FILE <- file.path(BOX_DATA_DIR, "typical-weekday-counts-xy-lookup.csv")
+
+soap_head    <- '<?xml version="1.0" encoding="utf-8"?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:q0="urn:webservice.postmile.lrs.gis.dot.ca.gov" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><soapenv:Body>'
+soap_foot    <- '</soapenv:Body></soapenv:Envelope>'
 
 validate.postmile.parameters <- function(countyCode,
                                          postmileValue,
@@ -17,8 +31,7 @@ validate.postmile.parameters <- function(countyCode,
                                          postmileSuffixCode){
 
 
-    validate_head = '<validatePostmileParameters 
-                          xmlns="urn:webservice.postmile.lrs.gis.dot.ca.gov">
+    validate_head = '<validatePostmileParameters xmlns="urn:webservice.postmile.lrs.gis.dot.ca.gov">
                       <options>
                         <effectiveDate xsi:nil="true"/>
                         <tolerance>0.1</tolerance>
@@ -195,50 +208,76 @@ get.coordinates.for.df <- function(l2){
 ######
 #Example requests
 ######
+test_coord <- get.coordinates.for.df(as.list(c(countyCode="SON", postmileValue=0.19, routeNumber=1, postmileSuffixCode="R")))
 
-setwd("C:/projects/caltrans-typical-weekday-counts")
-typical_weekday_counts <- read_csv("C:/projects/caltrans-typical-weekday-counts/data/typical-weekday-counts.csv")
+####
+# fetch the location for the existing count set
+setwd(GIT_REPO_DIR)
+
+typical_weekday_counts <- read_csv(COUNT_FILE)
 
 twc_unq <- unique(typical_weekday_counts[,c("county","post_mile","route","direction")])
 
 #put the suffix caltrans web service expects
-twc_unq$postmileSuffixCode <- replace(twc_unq$direction,twc_unq$direction=="N","R")
-twc_unq$postmileSuffixCode <- replace(twc_unq$postmileSuffixCode,twc_unq$postmileSuffixCode=="E","R")
-twc_unq$postmileSuffixCode <- replace(twc_unq$postmileSuffixCode,twc_unq$postmileSuffixCode=="S","L")
-twc_unq$postmileSuffixCode <- replace(twc_unq$postmileSuffixCode,twc_unq$postmileSuffixCode=="W","L")
+twc_unq <- mutate(twc_unq,
+                  postmileSuffixCode=case_when(direction=="N" ~ "R",
+                                               direction=="E" ~ "R",
+                                               direction=="S" ~ "L",
+                                               direction=="W" ~ "L"))
 
 #put an id on the unique location table for merging back into main table later
 twc_unq$ID <- 1:nrow(twc_unq)
 
 #change column names to CalTrans webservice names
-library(data.table)
-setnames(twc_unq, old = c('county','post_mile','route'), new = c('countyCode','postmileValue','routeNumber'))
+twc_unq <- rename(twc_unq, countyCode=county, postmileValue=post_mile, routeNumber=route)
 
 #make the route column an int
 twc_unq$routeNumber <- as.numeric(as.character(twc_unq$routeNumber))
 
 #iterate over the df
-twc_xy <- apply(twc_unq[,c('countyCode','postmileValue','routeNumber','postmileSuffixCode')], 1, function(x) get.coordinates.for.df(as.list(x)))
+twc_xy <- apply(twc_unq[,c('countyCode','postmileValue','routeNumber','postmileSuffixCode')], 1, 
+                function(x) get.coordinates.for.df(as.list(x)))
 
-#format xy's and merge back with df, output to csv
+#format xy's and merge back with df, note about source
 twc_xy_t <- t(twc_xy)
 twc_unq_xy <- cbind(twc_xy_t,twc_unq)
-write.csv(twc_unq_xy, file = "data/twc_xy_validated.csv")
+twc_unq_xy <- rename(twc_unq_xy, latitude=1, longitude=2) %>% 
+  select(-ID) %>%
+  mutate(loc_source=paste("fetched from PostmileWebService via get_xy.R on",now))
+print(paste("Initial fetch: Out of",nrow(twc_unq_xy),"unique locations,",
+      nrow(filter(twc_unq_xy, latitude==-99|longitude==-99)),"have missing locations"))
 
-#import the manual fixes and merge with the original
-twc_xy_validated_manual_fill <- read_csv("C:/projects/caltrans-typical-weekday-counts/data/twc_xy_validated_manual_fill.csv")
-twcs <- twc_xy_validated_manual_fill[,c('countyCode','postmileValue','routeNumber','ID','latitude','longitude','direction')]
+# direction is not part of the lookup -- add reversed version
+twc_reverse_xy <- data.frame(twc_unq_xy) %>% mutate(direction=case_when(direction == "E" ~ "W",
+                                                                        direction == "W" ~ "E",
+                                                                        direction == "S" ~ "N",
+                                                                        direction == "N" ~ "S"))
+twc_unq_xy <- left_join(twc_unq_xy, twc_reverse_xy,
+                        by=c('countyCode','postmileValue','routeNumber','direction'),
+                        suffix=c("","_rev"))
+twc_unq_xy <- mutate(twc_unq_xy, 
+                     latitude =ifelse( (latitude ==-99) & !is.na(latitude_rev),  latitude_rev,  latitude),
+                     longitude=ifelse( (longitude==-99) & !is.na(longitude_rev), longitude_rev, longitude)) %>%
+  select(-loc_source_rev, -latitude_rev, -longitude_rev, -postmileSuffixCode_rev)
 
-#go back to original column names and data type
-setnames(twcs, old = c('countyCode','postmileValue','routeNumber'),new = c('county','post_mile','route'))
-twcs$route <- str_pad(twcs$route, 3, pad = "0")
+print(paste("After merging reverse: Out of",nrow(twc_unq_xy),"unique locations,",
+            nrow(filter(twc_unq_xy, latitude==-99|longitude==-99)),"have missing locations"))
 
-typical_weekday_counts_manual <- merge(typical_weekday_counts, twcs, by=c("county","route","post_mile","direction"))
+# merge in manual lookup
+manual_xy  <- read_csv(MANUAL_LOC_FILE)
+twc_unq_xy <- left_join(twc_unq_xy, manual_xy,
+                        by=c('countyCode','postmileValue','routeNumber','direction'),
+                        suffix=c("","_man"))
+twc_unq_xy <- mutate(twc_unq_xy, 
+                     loc_source=ifelse((latitude ==-99) & !is.na(latitude_man),  loc_source_man, loc_source),
+                     latitude  =ifelse((latitude ==-99) & !is.na(latitude_man),  latitude_man,   latitude),
+                     longitude =ifelse((longitude==-99) & !is.na(longitude_man), longitude_man,  longitude)) %>%
+  select(-loc_source_man, -latitude_man, -longitude_man, -postmileSuffixCode_man)
 
-if (dim(typical_weekday_counts_manual)[1] == dim(typical_weekday_counts_manual)[1])
-  {
-    write.csv(typical_weekday_counts_manual, file = "data/typical_weekday_counts_xy.csv") 
-  } else 
-  { 
-    print("merge failed") 
-  }
+print(paste("After merging manual: Out of",nrow(twc_unq_xy),"unique locations,",
+            nrow(filter(twc_unq_xy, latitude==-99|longitude==-99)),"have missing locations"))
+
+# sort it
+twc_unq_xy <- arrange(twc_unq_xy, countyCode, routeNumber, postmileValue, direction)
+write.csv(twc_unq_xy, file = COUNT_LOCATION_FILE, row.names = FALSE)
+print(paste("Wrote",COUNT_LOCATION_FILE))
