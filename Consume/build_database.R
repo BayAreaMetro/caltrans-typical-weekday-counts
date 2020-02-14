@@ -26,9 +26,9 @@ start_time <- proc.time()
 
 #### Remote IO Locations
 F_INPUT_DIR = "M:/Data/Traffic/Caltrans/Processed Data"
-INPUT_FILE  = "counts_1998-2016.csv"
+INPUT_FILE  = "counts_1998-2020.csv"
 
-F_OUTPUT_DIR = "C:/Users/lzorn/Box Sync/Share Data/caltrans-typical-weekday"
+F_OUTPUT_DIR = file.path(Sys.getenv("HOME"),"..","Box","Modeling and Surveys","Share Data","caltrans-typical-weekday")
 OUTPUT_FILE  = "typical-weekday-counts.csv"
 
 

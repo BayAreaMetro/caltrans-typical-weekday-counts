@@ -4,7 +4,6 @@
 #
 
 # Initialization: Set the workspace and load needed libraries
-.libPaths(Sys.getenv("R_LIB"))
 library(dplyr)
 library(readr)
 
@@ -92,7 +91,12 @@ for (year in START_YEAR:END_YEAR) {
     fwf_df     <- read_fwf(tmpfile,
                            col_positions=fwf_widths(as.integer(cols[,2]), col_names=cols[,1]),
                            col_types    =paste(cols[,3], collapse=''))
-    print(head(fwf_df))
+
+    fwf_year_df <- mutate(fwf_df,
+                          YEAR=ifelse(YEAR>90, YEAR+1900, YEAR+2000),
+                          date=as.Date(sprintf("%4d-%02d-%02d", YEAR,MONTH,DATE1)))
+    print(paste("date range:", min(fwf_year_df$date), "to", max(fwf_year_df$date)))
+    # print(head(fwf_df))
     
     allyears_df <- rbind(allyears_df, fwf_df)
     last_year   <- year
