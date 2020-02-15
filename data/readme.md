@@ -5,6 +5,4 @@ This folder contains some limited documentation on the data used and output by t
 file_name|description
 --------|-----------
 98_14_no_single.txt|A history of traffic counts along CalTrans managed networks  
-typical-weekday-count.csv|A summary table of the data in the above file, using Linear Reference Sytem for location
-[typical_weekday_count_xy.csv](https://mtcdrive.box.com/v/typical-weekday-counts-xy)|Same as `typical-weekday-count.csv` but with Lat/Long reference attached   
-typical-weekday-count-xy-lookup.csv|a simple lookup table that joins `typical-weekday-count.csv` and `typical_weekday_count_xy.csv`  
+typical-weekday-counts-locations-manual-web-lookup.csv | Count locations manually looked up via https://postmile.dot.ca.gov/PMQT/PostmileQueryTool.html.  Used by [get_xy.R](https://github.com/BayAreaMetro/caltrans-typical-weekday-counts/blob/master/Consume/get_xy.R) to fill in the gaps for the count file locations.
